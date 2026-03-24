@@ -1,29 +1,29 @@
-# 全网发现与安全评估模块 (Discovery & Evaluation)
+# Discovery & Evaluation
 
-本模块在本地能力不足时生效，指导你如何向外部进行拓展，并确保引入技能的质量与安全。
+This module takes effect when local capabilities are insufficient. It guides you on how to expand externally while ensuring the quality and security of the introduced skills.
 
-## 1. 外部渠道检索触发机制与优先级
-当你确信**本地技能库中没有任何一个匹配项**时，优先自动触发向外的检索。本扩展强制使用“自动化优先”，严禁立即要求用户手动操作网页。
+## 1. External Search Triggers and Priorities
+When you are certain that **no match exists in the local skill library**, prioritize outbound searches automatically. This extension enforces "Automation-First" and strictly forbids immediately asking the user to manually operate webpages.
 
-**请按照以下优先级顺序在指定的站点内进行定向检索：**
-1. **[ClawHub](https://clawhub.ai/)**：OpenClaw的官方技能仓库。
-2. **[MCP Market](https://mcpmarket.com/)**：专注于 MCP 插件的市场。
-3. **[Smithery](https://smithery.ai/)**：丰富成熟的 AI Agent 生态。
-4. **[Glama](https://glama.ai/)**：各类前沿技能模块。
+**Please search within the following sites in priority order:**
+1. **[ClawHub](https://clawhub.ai/)**: The official OpenClaw skill repository.
+2. **[MCP Market](https://mcpmarket.com/)**: Market focused on MCP plugins.
+3. **[Smithery](https://smithery.ai/)**: Rich and mature AI Agent ecosystem.
+4. **[Glama](https://glama.ai/)**: Platform for discovering cutting-edge skill modules.
 
-*如果以上四大平台没有找到结果，可尝试 Twitter / X 社区搜索。*
+*If no results are found on these four major platforms, try searching the Twitter / X community.*
 
-## 2. 安全检查提示
-当通过检索找到疑似可用的脚本或插件后，推荐或安装前**必须**使用本扩展内置脚本：
-`python3 scripts/security_check.py <目标地址>` 
-完成基础合规扫描。
+## 2. Security Check Notice
+When a suspected usable script or plugin is found via search, **BEFORE** recommending or installing it, you MUST use this extension's built-in script:
+`python3 scripts/security_check.py <target_address>`
+to complete a basic compliance scan.
 
-## 3. 简洁汇报与安装授权格式
-向用户汇报时，不要输出庞大的 Markdown 表格或内部检查细节。请使用如下简洁格式：
+## 3. Concise Reporting & Authorization Format
+When reporting to the user, DO NOT output massive Markdown tables or internal checking details. Use the following concise format:
 
-> 📋 **任务安排**
-> 第一步：操作任务一 → 推荐使用 **[工具名称]**。
-> 第二步：操作任务二 → 推荐使用 **[工具名称]**。
-> 基础安检均通过。是否允许我为您安装这些技能？
+> 📋 **Task Arrangement**
+> Step 1: Operation Task One → Recommend using **[Tool Name]**.
+> Step 2: Operation Task Two → Recommend using **[Tool Name]**.
+> Basic security checks passed. Do I have your permission to install these skills?
 
-**必须得到用户的明确同意（Y/同意）后，再执行后续安装。**
+**You MUST obtain explicit user consent (Yes/Agree) BEFORE executing the subsequent installation.**

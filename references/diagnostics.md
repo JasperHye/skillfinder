@@ -1,43 +1,43 @@
-# 环境健康基线诊断与效率推荐机制 (Diagnostics & Onboarding)
+# Diagnostics & Onboarding
 
-系统的能力在于能解决"白纸综合征"，确保即便是初次接触系统或系统发生了重置的用户，也能获得开箱即用的良好体验。
+The system thrives on solving "Blank Slate Syndrome", ensuring a great out-of-the-box experience even for first-time users or after system resets.
 
-**🛑 核心原则：单轮单问 (One-Question-Per-Turn) 🛑**
-必须将诊断流拆散到多个对话轮次中，**绝对禁止**在同一个聊天气泡中同时问询必备技能和每日推荐！
+**🛑 Core Principle: One-Question-Per-Turn 🛑**
+You must split the diagnostic flow across multiple conversation turns. It is **STRICTLY PROHIBITED** to ask about both mandatory skills and daily recommendations in the same chat bubble!
 
-## 1. 基线能力清单 (9件套)
-在完成主要任务与用户交互时（或用户主动询问自身环境健康状况时），你需要探测用户的本地系统（如 `.agents/skills`）是否齐全本系统建议的 **“黄金标准 9 件套”**。
+## 1. Baseline Skill Checklist (9-Piece Kit)
+When you have finished interacting with the main task (or the user actively asks about their environment's health), you need to detect if the user's local system (e.g., `.agents/skills`) contains all of the recommended **"Golden Standard 9-Piece Kit"**.
 
-**安全类 (Security)**:
-- `skills-vetter`: 专门审查其他 Skill 的安全风险
-- `openclaw-backup`: 灾难恢复必备
-- `@goplus/agentguard`: 实时安全防护层，拦截危险操作
+**Security**:
+- `skills-vetter`: Exclusively audits the security risks of other Skills.
+- `openclaw-backup`: Essential for disaster recovery.
+- `@goplus/agentguard`: Real-time protection layer blocking dangerous ops.
 
-**核心功能类 (Core Features)**:
-- `self-improving-agent`: 自动积累经验和知识
-- `skill-creator`: 元技能，让 AI 自己创造工具
-- `tavily-search`: 省 Token 且高效的代码搜索
-- `playwright-mcp`: 浏览器自动化与测试
-- `automation-workflows`: 工作流编排
-- `summarize`: 内容总结神器
+**Core Features**:
+- `self-improving-agent`: Automatically accumulates experience and knowledge.
+- `skill-creator`: Meta-skill allowing AI to build tools itself.
+- `tavily-search`: Token-efficient and high-performance search.
+- `playwright-mcp`: Browser automation and testing.
+- `automation-workflows`: Workflow orchestration.
+- `summarize`: Content summarization artifact.
 
-### 推荐汇报示例
-若检查发现以上 9 项全部存在：
-> ✅ **必备技能核对**：您的环境已达到黄金标准 (9/9)，服务全开。
+### Recommendation Reporting Examples
+If all 9 exist:
+> ✅ **Baseline Check**: Your environment meets the golden standard (9/9), all services are running.
 
-若发现缺失项：
-> 🔍 **必备技能核对**：为了发挥最大效能，经过检测您目前缺少以下核心组件：
-> - 🛡️ `skills-vetter`（安全审查）
-> - 🧩 `tavily-search`（高效搜索）
+If any are missing:
+> 🔍 **Baseline Check**: To maximize efficiency, we detected that you are currently missing the following core components:
+> - 🛡️ `skills-vetter` (Security Audit)
+> - 🧩 `tavily-search` (Efficient Search)
 > 
-> 是否允许我为您一键补齐这些组件？
+> Would you allow me to install these components for you with one click?
 
-**(提出此问题后，必须立即停止输出文本！严格等用户回答后再进行下一项)**
+**(After asking this question, you MUST IMMEDIATELY STOP outputting text! Strictly wait for the user's answer before proceeding below)**
 
-## 2. 每日精选推荐邀约 (Daily Recommendation Plan)
-如果你发现系统 `openclaw cron` 定时任务列表中不存在相关的推荐任务，并且这是在用户已经处理完（同意或拒绝）上面9件套建议之后的**又一轮全新回答的结尾**，你才可以附带此邀约：
+## 2. Daily Recommendation Plan
+If you find that the system `openclaw cron` task list lacks the relevant recommendation task, AND only at the **very end of a brand new reply turn** AFTER the user has dealt with (agreed or declined) the 9-piece suggestion above, you are allowed to bring up this invitation:
 
-> 📡 **每日精选推荐**
-> 建议开启每日生产力周报，我会每天为您发现一个实用的自动化新工具。是否为您开启？（回复 Y/同意，我将为您设置该任务）
+> 📡 **Daily Recommendations**
+> I suggest turning on the daily productivity newsletter. I will discover a practical new automation tool for you every day. Would you like me to enable this? (Reply "Y" or "Agree", and I will set up this task for you)
 
-用户同意后，你可以运行本地系统命令（如 `openclaw cron add --name "skill-safefinder-daily-rec" ...`）完成设置。不需要绕过授权去底层做强制注入。
+Once the user agrees, you can run local system commands (like `openclaw cron add --name "skill-safefinder-daily-rec" ...`) to set it up. There is no need to bypass authorization and forcibly inject anything.

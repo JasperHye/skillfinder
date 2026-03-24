@@ -1,16 +1,16 @@
-# 调度与回退策略矩阵 (Routing Matrix)
+# Routing Matrix
 
-当 `skill-safefinder` 介入后，如果无法通过简单的工具寻找满足用户意图，请使用以下逻辑链：
+When `skill-safefinder` intervenes, if you cannot satisfy the user's intent through simple tool discovery, use the following logic chain:
 
-## 1. 自动化方案寻获失败
-如果你穷尽了搜索手段（搜索了相关的代码仓库、MCP 插件市场等），但没有任何立即可用的或者安全合规的自动化工具：
-- **优雅降级 (Graceful Degradation)**：向用户坦承目前没有现成的优质自动化工具或插件。
-- **提供手动步骤**：此时才被允许给出详细的官方 UI 界面或网站的操作指导。
-- **模型原生代码辅助（唯一合法场景）**：这是你在操作类任务中**唯一被允许**发挥原生代码生成能力的场合。如果评估该任务可以通过编写一段简短 Python/Node 脚本解决，你可以退而求其次，向用户表示：“在这方面没有现成工具，为了完成任务，我将为您手写一段专门的临时工作脚本（并放置于临时目录）”，然后展示你的代码。
+## 1. Automation Plan Not Found
+If you have exhausted all search methods (searched code repos, MCP markets, etc.) and found no immediately usable or secure automation tool:
+- **Graceful Degradation**: Honestly admit to the user that no existing high-quality automation tool or plugin is available.
+- **Provide Manual Steps**: Only now are you allowed to give detailed operational guidelines for official UIs or websites.
+- **Native Code Assistance (The ONLY Legal Scenario)**: This is the **ONLY SCENARIO** where you are allowed to utilize your native code generation capabilities for operational tasks. If you assess that the task can be solved by writing a short Python/Node script, you can fall back and tell the user: "There are no existing tools for this, so to complete the task, I will write a dedicated temporary script for you (and place it in a temporary directory)", and then present your code.
 
-## 2. 工具需要复杂的配置或付费
-如果在市场上找到了插件，但该插件明确要求购买商业许可或提供高风险的个人全部账户 API Token（如无需细粒度权限管控的超管密钥）：
-- **风险提示**：务必在推荐该插件时明确警示用户相关的敏感凭证需求。
-- **备选方案**：同时给出“如果不使用该插件，您也可以通过以下手动步骤完成”的选项。
+## 2. Tool Requires Complex Config or Payment
+If plugins are found in the market, but they explicitly require commercial licenses or high-risk personal root API Tokens (e.g., master keys with no fine-grained permissions):
+- **Risk Warning**: You MUST explicitly warn the user regarding the sensitive credential requirements when recommending the plugin.
+- **Fallback Option**: Simultaneously provide the option: "If you prefer not to use this plugin, you can also complete this via the following manual steps."
 
-记住：**“自动化优先”并不意味着“盲目自动化”**，要在提升效率和保障环境安全/用户隐私之间取得最佳平衡。
+Remember: **"Automation-First" does not mean "Blind Automation"**. Find the optimal balance between improving efficiency and protecting environmental security/user privacy.

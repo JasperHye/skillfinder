@@ -3,7 +3,7 @@ import argparse
 import urllib.parse
 import re
 
-# 可疑代码模式清单（用于对目标代码进行基础静态扫描）
+# Suspicious code patterns (for basic static scanning of target code)
 SUSPICIOUS_PATTERNS = [
     r"eval\s*\(",
     r"exec\s*\(",
@@ -13,7 +13,7 @@ SUSPICIOUS_PATTERNS = [
     r"compile\s*\(.+exec",
 ]
 
-# 敏感路径关键词（检查代码中是否尝试访问高危目录）
+# Sensitive path keywords (check if the code attempts to access high-risk directories)
 SENSITIVE_PATHS = [
     ".ssh", ".env", "credentials", "id_rsa",
     "passwd", "shadow", "token", "secret",
@@ -21,60 +21,60 @@ SENSITIVE_PATHS = [
 
 def validate_target(target):
     """
-    对传入的扫描目标进行格式校验，
-    允许合法的 URL (http/https)，包名 slug，或本地文件路径。
+    Validate the format of the incoming scan target.
+    Allows valid URLs (http/https), package slugs, or local file paths.
     """
     parsed = urllib.parse.urlparse(target)
     if parsed.scheme in ("http", "https") and parsed.netloc:
         return True
     
-    # 允许包含路径分隔符和后缀名的本地路径格式
+    # Allow local path formats containing path separators and extensions
     if all(c.isalnum() or c in "-_./\\" for c in target):
         return True
     return False
 
 def scan_content(content):
     """
-    对代码文本内容进行基础的静态模式匹配扫描。
-    返回检测到的可疑信号列表。
+    Perform a basic static pattern matching scan on the code text content.
+    Returns a list of detected suspicious signals.
     """
     findings = []
     for i, line in enumerate(content.split("\n"), 1):
         for pattern in SUSPICIOUS_PATTERNS:
             if re.search(pattern, line):
-                findings.append(f"L{i}: 检测到可疑调用模式")
+                findings.append(f"L{i}: Suspicious call pattern detected")
                 break
         for path_kw in SENSITIVE_PATHS:
             if path_kw in line.lower():
-                findings.append(f"L{i}: 涉及敏感路径关键词")
+                findings.append(f"L{i}: Sensitive path keyword involved")
                 break
     return findings
 
 def scan_skill(target):
     """
-    对指定目标执行基础安全合规检查。
-    本脚本为纯 Python 实现，不依赖任何外部命令行工具。
-    退出码 0 = 通过，1 = 未通过。
+    Execute basic security compliance checks on the specified target.
+    This script is a pure Python implementation and doesn't rely on external CLI tools.
+    Exit code: 0 = Pass, 1 = Fail.
     """
     if not validate_target(target):
-        print("[!] 输入格式不合法，仅接受 http/https 链接或纯字母数字 slug。")
+        print("[!] Invalid input format. Only accepts http/https links or alphanumeric slugs.")
         sys.exit(1)
 
-    print(f"[*] 正在对目标执行基础合规检查: {target} ...")
+    print(f"[*] Performing basic compliance check on target: {target} ...")
 
-    # 如果是 URL，仅做格式校验（实际内容扫描需在下载后进行）
+    # If it's a URL, only perform format validation (content scanning requires download first)
     parsed = urllib.parse.urlparse(target)
     if parsed.scheme in ("http", "https"):
-        print("[+] URL 格式校验通过。深度内容扫描将在文件下载后执行。")
+        print("[+] URL format check passed. Deep content scanning will execute after download.")
         sys.exit(0)
 
-    # 如果是本地路径或 slug，尝试读取并扫描
+    # If it's a local path or slug, attempt to read and scan
     try:
         with open(target, "r", encoding="utf-8", errors="ignore") as f:
             content = f.read()
         findings = scan_content(content)
         if findings:
-            print(f"[!] 检测到 {len(findings)} 个可疑信号：")
+            print(f"[!] Detected {len(findings)} suspicious signals:")
             count = 0
             for f_item in findings:
                 if count >= 5: break
@@ -82,18 +82,18 @@ def scan_skill(target):
                 count += 1
             sys.exit(1)
         else:
-            print("[+] 基础合规检查通过，未发现可疑模式。")
+            print("[+] Basic compliance check passed. No suspicious patterns found.")
             sys.exit(0)
     except FileNotFoundError:
-        # slug 模式，无本地文件可扫描，仅做格式校验
-        print(f"[+] Slug '{target}' 格式校验通过。")
+        # Slug mode, no local file to scan, only format validation done
+        print(f"[+] Slug '{target}' format check passed.")
         sys.exit(0)
     except Exception:
-        print("[-] 执行检查时发生未知错误。")
+        print("[-] An unknown error occurred during the check.")
         sys.exit(1)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Built-in Compliance Scanner")
-    parser.add_argument("target", help="要检查的 URL、本地文件路径或组件 slug")
+    parser.add_argument("target", help="URL, local file path, or component slug to check")
     args = parser.parse_args()
     scan_skill(args.target)
